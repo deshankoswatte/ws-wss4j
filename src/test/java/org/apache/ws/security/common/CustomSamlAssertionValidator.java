@@ -40,22 +40,22 @@ public class CustomSamlAssertionValidator extends SamlAssertionValidator {
         }
         if (assertion.getSaml1() != null) {
             // Get the SAML subject and validate it
-            org.opensaml.saml1.core.Assertion saml1Assertion = assertion.getSaml1();
-            org.opensaml.saml1.core.Subject samlSubject = null;
-            for (org.opensaml.saml1.core.Statement stmt : saml1Assertion.getStatements()) {
-                if (stmt instanceof org.opensaml.saml1.core.AttributeStatement) {
-                    org.opensaml.saml1.core.AttributeStatement attrStmt = 
-                        (org.opensaml.saml1.core.AttributeStatement) stmt;
+            org.opensaml.saml.saml1.core.Assertion saml1Assertion = assertion.getSaml1();
+            org.opensaml.saml.saml1.core.Subject samlSubject = null;
+            for (org.opensaml.saml.saml1.core.Statement stmt : saml1Assertion.getStatements()) {
+                if (stmt instanceof org.opensaml.saml.saml1.core.AttributeStatement) {
+                    org.opensaml.saml.saml1.core.AttributeStatement attrStmt =
+                        (org.opensaml.saml.saml1.core.AttributeStatement) stmt;
                     samlSubject = attrStmt.getSubject();
                     break;
-                } else if (stmt instanceof org.opensaml.saml1.core.AuthenticationStatement) {
-                    org.opensaml.saml1.core.AuthenticationStatement authStmt = 
-                        (org.opensaml.saml1.core.AuthenticationStatement) stmt;
+                } else if (stmt instanceof org.opensaml.saml.saml1.core.AuthenticationStatement) {
+                    org.opensaml.saml.saml1.core.AuthenticationStatement authStmt =
+                        (org.opensaml.saml.saml1.core.AuthenticationStatement) stmt;
                     samlSubject = authStmt.getSubject();
                     break;
                 } else {
-                    org.opensaml.saml1.core.AuthorizationDecisionStatement authzStmt =
-                        (org.opensaml.saml1.core.AuthorizationDecisionStatement)stmt;
+                    org.opensaml.saml.saml1.core.AuthorizationDecisionStatement authzStmt =
+                        (org.opensaml.saml.saml1.core.AuthorizationDecisionStatement)stmt;
                     samlSubject = authzStmt.getSubject();
                 }
             }
@@ -71,8 +71,8 @@ public class CustomSamlAssertionValidator extends SamlAssertionValidator {
                 throw new WSSecurityException(WSSecurityException.FAILURE, "invalidSAMLsecurity");
             }
         } else {
-            org.opensaml.saml2.core.Assertion saml2Assertion = assertion.getSaml2();
-            org.opensaml.saml2.core.Subject subject = saml2Assertion.getSubject();
+            org.opensaml.saml.saml2.core.Assertion saml2Assertion = assertion.getSaml2();
+            org.opensaml.saml.saml2.core.Subject subject = saml2Assertion.getSubject();
             String nameIdentifier = subject.getNameID().getValue();
             if (nameIdentifier == null || !nameIdentifier.contains("uid=joe")) {
                 throw new WSSecurityException(WSSecurityException.FAILURE, "invalidSAMLsecurity");

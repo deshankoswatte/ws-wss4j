@@ -20,7 +20,7 @@
 package org.apache.ws.security;
 
 import org.apache.ws.security.saml.ext.AssertionWrapper;
-import org.opensaml.common.SAMLVersion;
+import org.opensaml.saml.common.SAMLVersion;
 
 import java.io.Serializable;
 import java.security.Principal;
@@ -38,24 +38,24 @@ public class SAMLTokenPrincipal implements Principal, Serializable {
     public SAMLTokenPrincipal(AssertionWrapper assertion) {
         this.assertion = assertion;
         if (assertion.getSamlVersion() == SAMLVersion.VERSION_20) {
-            org.opensaml.saml2.core.Subject subject = assertion.getSaml2().getSubject();
+            org.opensaml.saml.saml2.core.Subject subject = assertion.getSaml2().getSubject();
             if (subject != null && subject.getNameID() != null) {
                 name = subject.getNameID().getValue();
             }
         } else {
-            org.opensaml.saml1.core.Subject samlSubject = null;
-            for (org.opensaml.saml1.core.Statement stmt : assertion.getSaml1().getStatements()) {
-                if (stmt instanceof org.opensaml.saml1.core.AttributeStatement) {
-                    org.opensaml.saml1.core.AttributeStatement attrStmt = 
-                        (org.opensaml.saml1.core.AttributeStatement) stmt;
+            org.opensaml.saml.saml1.core.Subject samlSubject = null;
+            for (org.opensaml.saml.saml1.core.Statement stmt : assertion.getSaml1().getStatements()) {
+                if (stmt instanceof org.opensaml.saml.saml1.core.AttributeStatement) {
+                    org.opensaml.saml.saml1.core.AttributeStatement attrStmt =
+                        (org.opensaml.saml.saml1.core.AttributeStatement) stmt;
                     samlSubject = attrStmt.getSubject();
-                } else if (stmt instanceof org.opensaml.saml1.core.AuthenticationStatement) {
-                    org.opensaml.saml1.core.AuthenticationStatement authStmt = 
-                        (org.opensaml.saml1.core.AuthenticationStatement) stmt;
+                } else if (stmt instanceof org.opensaml.saml.saml1.core.AuthenticationStatement) {
+                    org.opensaml.saml.saml1.core.AuthenticationStatement authStmt =
+                        (org.opensaml.saml.saml1.core.AuthenticationStatement) stmt;
                     samlSubject = authStmt.getSubject();
                 } else {
-                    org.opensaml.saml1.core.AuthorizationDecisionStatement authzStmt =
-                        (org.opensaml.saml1.core.AuthorizationDecisionStatement)stmt;
+                    org.opensaml.saml.saml1.core.AuthorizationDecisionStatement authzStmt =
+                        (org.opensaml.saml.saml1.core.AuthorizationDecisionStatement)stmt;
                     samlSubject = authzStmt.getSubject();
                 }
                 if (samlSubject != null) {

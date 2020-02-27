@@ -34,8 +34,8 @@ import org.apache.ws.security.saml.ext.AssertionWrapper;
 import org.apache.ws.security.util.DOM2Writer;
 import org.apache.ws.security.validate.Credential;
 import org.apache.ws.security.validate.Validator;
-import org.opensaml.xml.signature.KeyInfo;
-import org.opensaml.xml.signature.Signature;
+import org.opensaml.xmlsec.signature.KeyInfo;
+import org.opensaml.xmlsec.signature.Signature;
 import org.w3c.dom.Element;
 
 import java.security.NoSuchProviderException;

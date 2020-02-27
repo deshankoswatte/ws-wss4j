@@ -32,11 +32,9 @@ import org.apache.ws.security.saml.ext.builder.SAML1Constants;
 import org.apache.ws.security.saml.ext.builder.SAML2Constants;
 import org.apache.ws.security.util.InetAddressUtils;
 import org.joda.time.DateTime;
-import org.opensaml.common.SAMLVersion;
-import org.opensaml.saml1.core.AuthenticationStatement;
-import org.opensaml.saml2.core.AuthnStatement;
-import org.opensaml.xml.validation.ValidationException;
-import org.opensaml.xml.validation.ValidatorSuite;
+import org.opensaml.saml.common.SAMLVersion;
+import org.opensaml.saml.saml1.core.AuthenticationStatement;
+import org.opensaml.saml.saml2.core.AuthnStatement;
 
 /**
  * This class validates a SAML Assertion, which is wrapped in an "AssertionWrapper" instance.
@@ -293,17 +291,17 @@ public class SamlAssertionValidator extends SignatureTrustValidator {
         
         if (assertion.getSamlVersion().equals(SAMLVersion.VERSION_20) 
             && assertion.getSaml2().getConditions() != null) {
-            org.opensaml.saml2.core.Conditions conditions = 
+            org.opensaml.saml.saml2.core.Conditions conditions =
                 assertion.getSaml2().getConditions();
             if (conditions != null && conditions.getAudienceRestrictions() != null
                 && !conditions.getAudienceRestrictions().isEmpty()) {
                 boolean foundAddress = false;
-                for (org.opensaml.saml2.core.AudienceRestriction audienceRestriction 
+                for (org.opensaml.saml.saml2.core.AudienceRestriction audienceRestriction
                     : conditions.getAudienceRestrictions()) {
                     if (audienceRestriction.getAudiences() != null) {
-                        List<org.opensaml.saml2.core.Audience> audiences = 
+                        List<org.opensaml.saml.saml2.core.Audience> audiences =
                             audienceRestriction.getAudiences();
-                        for (org.opensaml.saml2.core.Audience audience : audiences) {
+                        for (org.opensaml.saml.saml2.core.Audience audience : audiences) {
                             String audienceURI = audience.getAudienceURI();
                             if (audienceRestrictions.contains(audienceURI)) {
                                 foundAddress = true;
@@ -319,17 +317,17 @@ public class SamlAssertionValidator extends SignatureTrustValidator {
             }
         } else if (assertion.getSamlVersion().equals(SAMLVersion.VERSION_11) 
             && assertion.getSaml1().getConditions() != null) {
-            org.opensaml.saml1.core.Conditions conditions = 
+            org.opensaml.saml.saml1.core.Conditions conditions =
                 assertion.getSaml1().getConditions();
             if (conditions != null && conditions.getAudienceRestrictionConditions() != null
                 && !conditions.getAudienceRestrictionConditions().isEmpty()) {
                 boolean foundAddress = false;
-                for (org.opensaml.saml1.core.AudienceRestrictionCondition audienceRestriction 
+                for (org.opensaml.saml.saml1.core.AudienceRestrictionCondition audienceRestriction
                     : conditions.getAudienceRestrictionConditions()) {
                     if (audienceRestriction.getAudiences() != null) {
-                        List<org.opensaml.saml1.core.Audience> audiences = 
+                        List<org.opensaml.saml.saml1.core.Audience> audiences =
                             audienceRestriction.getAudiences();
-                        for (org.opensaml.saml1.core.Audience audience : audiences) {
+                        for (org.opensaml.saml.saml1.core.Audience audience : audiences) {
                             String audienceURI = audience.getUri();
                             if (audienceRestrictions.contains(audienceURI)) {
                                 foundAddress = true;
@@ -457,35 +455,35 @@ public class SamlAssertionValidator extends SignatureTrustValidator {
             assertion.validateSignatureAgainstProfile();
         }
         
-        if (assertion.getSaml1() != null) {
-            ValidatorSuite schemaValidators = 
-                org.opensaml.Configuration.getValidatorSuite("saml1-schema-validator");
-            ValidatorSuite specValidators = 
-                org.opensaml.Configuration.getValidatorSuite("saml1-spec-validator");
-            try {
-                schemaValidators.validate(assertion.getSaml1());
-                specValidators.validate(assertion.getSaml1());
-            } catch (ValidationException e) {
-                LOG.debug("Saml Validation error: " + e.getMessage(), e);
-                throw new WSSecurityException(
-                    WSSecurityException.FAILURE, "invalidSAMLsecurity", null, e
-                );
-            }
-        } else if (assertion.getSaml2() != null) {
-            ValidatorSuite schemaValidators = 
-                org.opensaml.Configuration.getValidatorSuite("saml2-core-schema-validator");
-            ValidatorSuite specValidators = 
-                org.opensaml.Configuration.getValidatorSuite("saml2-core-spec-validator");
-            try {
-                schemaValidators.validate(assertion.getSaml2());
-                specValidators.validate(assertion.getSaml2());
-            } catch (ValidationException e) {
-                LOG.debug("Saml Validation error: " + e.getMessage(), e);
-                throw new WSSecurityException(
-                    WSSecurityException.FAILURE, "invalidSAMLsecurity", null, e
-                );
-            }
-        }
+//        if (assertion.getSaml1() != null) {
+//            ValidatorSuite schemaValidators =
+//                org.opensaml.Configuration.getValidatorSuite("saml1-schema-validator");
+//            ValidatorSuite specValidators =
+//                org.opensaml.Configuration.getValidatorSuite("saml1-spec-validator");
+//            try {
+//                schemaValidators.validate(assertion.getSaml1());
+//                specValidators.validate(assertion.getSaml1());
+//            } catch (ValidationException e) {
+//                LOG.debug("Saml Validation error: " + e.getMessage(), e);
+//                throw new WSSecurityException(
+//                    WSSecurityException.FAILURE, "invalidSAMLsecurity", null, e
+//                );
+//            }
+//        } else if (assertion.getSaml2() != null) {
+//            ValidatorSuite schemaValidators =
+//                org.opensaml.Configuration.getValidatorSuite("saml2-core-schema-validator");
+//            ValidatorSuite specValidators =
+//                org.opensaml.Configuration.getValidatorSuite("saml2-core-spec-validator");
+//            try {
+//                schemaValidators.validate(assertion.getSaml2());
+//                specValidators.validate(assertion.getSaml2());
+//            } catch (ValidationException e) {
+//                LOG.debug("Saml Validation error: " + e.getMessage(), e);
+//                throw new WSSecurityException(
+//                    WSSecurityException.FAILURE, "invalidSAMLsecurity", null, e
+//                );
+//            }
+//        }
     }
 
     /**

@@ -26,7 +26,7 @@ import org.apache.ws.security.saml.ext.SAMLCallback;
 import org.apache.ws.security.saml.ext.bean.KeyInfoBean;
 import org.apache.ws.security.saml.ext.bean.SubjectBean;
 import org.apache.ws.security.saml.ext.builder.SAML2Constants;
-import org.opensaml.common.SAMLVersion;
+import org.opensaml.saml.common.SAMLVersion;
 
 import javax.security.auth.callback.Callback;
 import javax.security.auth.callback.UnsupportedCallbackException;

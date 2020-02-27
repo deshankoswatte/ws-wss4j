@@ -21,7 +21,7 @@ package org.apache.ws.security.saml.ext;
 
 import javax.security.auth.callback.CallbackHandler;
 
-import org.opensaml.common.SAMLVersion;
+import org.opensaml.saml.common.SAMLVersion;
 
 /**
  * Class SAMLParms is a parameter bean that is used to pass raw material from

@@ -34,8 +34,8 @@ import org.apache.ws.security.saml.ext.builder.SAML2Constants;
 import org.apache.ws.security.util.DOM2Writer;
 import org.apache.ws.security.util.Loader;
 import org.junit.Assert;
-import org.opensaml.xml.signature.Signature;
-import org.opensaml.xml.signature.SignatureConstants;
+import org.opensaml.xmlsec.signature.Signature;
+import org.opensaml.xmlsec.signature.support.SignatureConstants;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
