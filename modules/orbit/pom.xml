@@ -1,0 +1,142 @@
+<!--
+ ~ Copyright (c) 2005-2011, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+ ~
+ ~ WSO2 Inc. licenses this file to you under the Apache License,
+ ~ Version 2.0 (the "License"); you may not use this file except
+ ~ in compliance with the License.
+ ~ You may obtain a copy of the License at
+ ~
+ ~    http://www.apache.org/licenses/LICENSE-2.0
+ ~
+ ~ Unless required by applicable law or agreed to in writing,
+ ~ software distributed under the License is distributed on an
+ ~ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ ~ KIND, either express or implied.  See the License for the
+ ~ specific language governing permissions and limitations
+ ~ under the License.
+ -->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <parent>
+        <groupId>org.apache.ws.security</groupId>
+        <artifactId>wss4j-parent</artifactId>
+        <version>1.6.19-wso2v1-SNAPSHOT</version>
+        <relativePath>../../pom.xml</relativePath>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>orbit</artifactId>
+    <version>1.6.19-wso2v1-SNAPSHOT</version>
+    <packaging>bundle</packaging>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.apache.ws.security</groupId>
+            <artifactId>wss4j</artifactId>
+            <optional>true</optional>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.opensaml</groupId>
+                    <artifactId>opensaml</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>xalan</groupId>
+                    <artifactId>xalan</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-jdk14</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>commons-logging</groupId>
+                    <artifactId>commons-logging</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.santuario</groupId>
+            <artifactId>xmlsec</artifactId>
+            <optional>true</optional>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.felix</groupId>
+                <artifactId>maven-bundle-plugin</artifactId>
+                <extensions>true</extensions>
+                <configuration>
+                    <instructions>
+                        <Bundle-SymbolicName>${parent.artifactId}</Bundle-SymbolicName>
+                        <Bundle-Name>${parent.artifactId}</Bundle-Name>
+                        <Export-Package>
+                            org.apache.ws.security.*; version=${exp.pkg.version.wss4j},
+                            org.apache.ws.axis.security.*; version=${exp.pkg.version.wss4j},
+                            javax.xml.crypto.*; version=${exp.pkg.version.xmlsec},
+                            org.apache.xml.security.*; version=${exp.pkg.version.xmlsec},
+                            org.jcp.xml.dsig.internal.*; version=${exp.pkg.version.xmlsec}
+                        </Export-Package>
+                        <Import-Package>
+                            !org.apache.ws.security.*; version="${imp.pkg.version.wss4j}",
+                            !org.apache.ws.axis.security.*; version="${imp.pkg.version.wss4j}",
+                            !javax.xml.crypto.*; version="${imp.pkg.version.xmlsec}",
+                            !org.apache.xml.security.*; version="${imp.pkg.version.xmlsec}",
+                            !org.jcp.xml.dsig.internal.*; version="${imp.pkg.version.xmlsec}",
+                            org.bouncycastle.*; version="${imp.pkg.version.bcp}",
+                            org.apache.axis.*;version="${imp.pkg.version.axis2}";resolution:=optional,
+                            javax.xml.soap; version="${imp.pkg.version.xmlsoap}";resolution:=optional,
+                            javax.crypto,
+                            javax.crypto.spec,
+                            javax.security.auth,
+                            javax.security.auth.callback,
+                            javax.security.auth.kerberos,
+                            javax.security.auth.login,
+                            javax.security.auth.x500,
+                            javax.xml.namespace;resolution:=optional,
+                            javax.xml.parsers; version="${javax.xml.parsers.import.pkg.version}",
+                            javax.xml.rpc.*;resolution:=optional,
+                            javax.xml.transform,
+                            javax.xml.transform.dom,
+                            javax.xml.transform.sax,
+                            javax.xml.transform.stream,
+                            javax.xml.xpath,
+                            org.apache.commons.logging,
+                            org.apache.xml.dtm;resolution:=optional,
+                            org.apache.xml.utils;resolution:=optional,
+                            org.apache.xpath;resolution:=optional,
+                            org.apache.xpath.compiler;resolution:=optional,
+                            org.apache.xpath.functions;resolution:=optional,
+                            org.apache.xpath.objects;resolution:=optional,
+                            org.ietf.jgss,
+                            org.joda.time,
+                            org.opensaml,
+                            org.opensaml.saml2.core,
+                            org.opensaml.xml,
+                            org.opensaml.xml.io,
+                            org.opensaml.xml.security.credential,
+                            org.opensaml.xml.security.x509,
+                            org.opensaml.xml.signature,
+                            org.opensaml.xml.util,
+                            org.opensaml.xml.validation,
+                            org.w3c.dom,
+                            org.xml.sax,
+                            sun.security.krb5.*;resolution:=optional,
+                            sun.security.util;resolution:=optional,
+                        </Import-Package>
+                        <Embed-Transitive>true</Embed-Transitive>
+                        <DynamicImport-Package>*</DynamicImport-Package>
+                    </instructions>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-release-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-deploy-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

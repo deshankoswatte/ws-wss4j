@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 
-<project name="Web Services Security (WSS4J)" default="usage" basedir=".">
+<project name="Web Services Security (WSS4J)" default="usage" basedir="..">
     <!-- ================================================================== -->
     <description>
    Build file for WSS4J
@@ -40,12 +40,12 @@ Build Instructions:
 
         <property name="dir.doc" value="./doc"/>
         <property name="dir.dist" value="./dist"/>
-        <property name="dir.libs" value="./lib"/>
-        <property name="dir.endorsed.libs" value="./endorsed"/>
-        <property name="dir.src.java" value="./src/main/java"/>
-        <property name="dir.src.resources" value="./src/main/resources"/>
-        <property name="dir.test.java" value="./src/test/java"/>
-        <property name="dir.test.resources" value="./src/test/resources"/>
+        <property name="dir.libs" value="../lib"/>
+        <property name="dir.endorsed.libs" value="../endorsed"/>
+        <property name="dir.src.java" value="../src/main/java"/>
+        <property name="dir.src.resources" value="../src/main/resources"/>
+        <property name="dir.test.java" value="../src/test/java"/>
+        <property name="dir.test.resources" value="../src/test/resources"/>
 
         <property name="build.dir" value="./build"/>
         <property name="build.classes" value="${build.dir}/classes"/>
@@ -83,11 +83,11 @@ Build Instructions:
          -->
         
         <path id="classpath.libraries" description="3rd party libs">
-            <fileset dir="${dir.libs}">
+            <fileset dir="../lib">
                 <include name="**/*.jar"/>
                 <!-- <pathelement path="${java.class.path}"/> -->
             </fileset>
-            <fileset dir="${dir.endorsed.libs}">
+            <fileset dir="../endorsed">
                 <include name="**/*.jar"/>
                 <!-- <pathelement path="${java.class.path}"/> -->
             </fileset>
@@ -226,7 +226,7 @@ org.apache.ws.security.util
         <!-- create directories -->
         <mkdir dir="${build.classes}"/>
         <copy todir="${build.classes}">
-            <fileset dir="${dir.src.java}">
+            <fileset dir="../src/main/java">
                 <include name="META-INF/*"/>
             </fileset>
         </copy>
@@ -244,8 +244,8 @@ org.apache.ws.security.util
             classpathref="classpath.test">
             <!-- additionalparam="-breakiterator"-->
             <sourcepath>
-                <pathelement location="${dir.src.java}"/>
-                <pathelement location="${dir.test.java}"/>
+                <pathelement location="../src/main/java"/>
+                <pathelement location="../src/test/java"/>
             </sourcepath>
         </javadoc>
     </target>
@@ -280,7 +280,7 @@ org.apache.ws.security.util
         </javac>
         <!-- Copy Property files -->
         <copy todir="${build.classes}">
-            <fileset dir="${dir.src.resources}">
+            <fileset dir="../src/main/resources">
                 <include name="**/*.properties"/>
             	<include name="**/*.xml"/>
             </fileset>
@@ -295,7 +295,7 @@ org.apache.ws.security.util
 
         <!-- Copy Property files -->
         <copy todir="${build.classes}">
-            <fileset dir="${dir.test.resources}" includes="**/*"/>
+            <fileset dir="../src/test/resources" includes="**/*"/>
         </copy>
     </target>
 
@@ -303,7 +303,7 @@ org.apache.ws.security.util
         <junit printsummary="yes"
             haltonfailure="yes"
             fork="yes"
-            dir="${basedir}">
+            dir="/">
             <!-- See if this helps with Gump test failures -->
             <sysproperty key="build.clonevm" value="true"/>
 
@@ -351,13 +351,13 @@ org.apache.ws.security.util
          <mkdir dir="${dir.dist}"/>
          <zip destfile=
            "${dir.dist}/${product.shortname}-bin-${product.version}.zip">
-            <zipfileset prefix="wss4j-${product.version}" dir="."
+            <zipfileset prefix="wss4j-${product.version}" dir=".."
                 includes="legal/** lib/** LICENSE.txt README.txt NOTICE "/>
-            <zipfileset prefix="wss4j-${product.version}/lib" dir="target/"
+            <zipfileset prefix="wss4j-${product.version}/lib" dir="../target/"
                 includes="wss4j-${product.version}.jar" />
-            <zipfileset prefix="wss4j-${product.version}/doc" dir="target/"
+            <zipfileset prefix="wss4j-${product.version}/doc" dir="../target/"
                 includes="wss4j-${product.version}-*.jar" />
-            <zipfileset prefix="wss4j-${product.version}/lib" dir="endorsed/"
+            <zipfileset prefix="wss4j-${product.version}/lib" dir="../endorsed/"
                 includes="*.jar" />
          </zip>
      </target>  
@@ -367,7 +367,7 @@ org.apache.ws.security.util
         <mkdir dir="${dir.dist}"/>
         <zip destfile=
                  "${dir.dist}/${product.shortname}-src-${product.version}.zip">
-            <zipfileset prefix="wss4j-${product.version}" dir="."
+            <zipfileset prefix="wss4j-${product.version}" dir=".."
                 includes="src/** ChangeLog.txt LICENSE.txt README.txt NOTICE build.xml pom.xml"/>
         </zip>
     </target>
