@@ -16,16 +16,17 @@
   specific language governing permissions and limitations
   under the License.
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>org.apache.ws.security</groupId>
+    <groupId>org.apache.ws.security.wso2</groupId>
     <artifactId>wss4j</artifactId>
     <packaging>bundle</packaging>
     <name>Apache WSS4J</name>
-    <version>1.6.19</version>
+    <version>1.6.19-wso2v1-SNAPSHOT</version>
     <description>
-        The Apache WSS4J project provides a Java implementation of the primary security standards 
-        for Web Services, namely the OASIS Web Services Security (WS-Security) specifications 
+        The Apache WSS4J project provides a Java implementation of the primary security standards
+        for Web Services, namely the OASIS Web Services Security (WS-Security) specifications
         from the OASIS Web Services Security TC.
     </description>
     <url>http://ws.apache.org/wss4j/</url>
@@ -65,6 +66,18 @@
             <distribution>repo</distribution>
         </license>
     </licenses>
+    <repositories>
+        <repository>
+            <id>wso2-nexus</id>
+            <name>WSO2 internal Repository</name>
+            <url>http://maven.wso2.org/nexus/content/groups/wso2-public/</url>
+            <releases>
+                <enabled>true</enabled>
+                <updatePolicy>daily</updatePolicy>
+                <checksumPolicy>ignore</checksumPolicy>
+            </releases>
+        </repository>
+    </repositories>
     <scm>
         <connection>
             scm:svn:http://svn.apache.org/repos/asf/webservices/wss4j/tags/wss4j-1.6.19
@@ -157,22 +170,28 @@
                         <Specification-Version>${project.version}</Specification-Version>
 
                         <Export-Package>
-                              org.apache.ws.security.*;version="${project.version}"
+                            org.apache.ws.security.*;version="${project.version}",
+                            org.apache.xml.security.*; version="${xmlsec.version}",
+                            javax.xml.crypto.*; version="${xmlsec.version}",
+                            org.apache.jcp.xml.dsig.internal.dom.*; version="${xmlsec.version}"
                         </Export-Package>
                         <Import-Package>
-                              !org.apache.ws.security.*,
-                              javax.xml.crypto.*,
-                              org.apache.xml.security.*,
-                              org.bouncycastle.*;resolution:=optional,
-                              org.apache.jcp.xml.dsig.internal.dom.*,
-                              org.opensaml.*;resolution:=optional,
-                              org.joda.time;version="[1.6,3)";resolution:=optional,
-                              *;resolution:=optional
+                            !org.apache.ws.security.*; version="${wss4j.version.range}",
+                            !javax.xml.crypto.*; version="${xmlsec.version.range}",
+                            !org.apache.xml.security.*; version="${xmlsec.version.range}",
+                            !org.apache.jcp.xml.dsig.internal.dom.*; version="${xmlsec.version.range}",
+                            org.bouncycastle.*; version="${bcprov.version.range}"; resolution:=optional,
+                            org.opensaml.*; version="${opensaml.version.range}"; resolution:=optional,
+                            net.shibboleth.utilities.java.support.*; version="${opensaml.version.range}";
+                            resolution:=optional,
+                            org.wso2.carbon.identity.saml.common.util.*; version="${saml.common.util.version.range}",
+                            org.joda.time;version="[1.6,3)";resolution:=optional,
+                            *;resolution:=optional
                         </Import-Package>
                         <DynamicImport-Package>
-                              org.bouncycastle.jce.provider,
-                              org.apache.ws.security.components.crypto,
-                              org.apache.ws.security.saml
+                            org.bouncycastle.jce.provider,
+                            org.apache.ws.security.components.crypto,
+                            org.apache.ws.security.saml
                         </DynamicImport-Package>
                     </instructions>
                 </configuration>
@@ -215,25 +234,25 @@
                 <version>3.3</version>
             </plugin>
             <!--<plugin>-->
-                <!--<groupId>org.codehaus.mojo</groupId>-->
-                <!--<artifactId>animal-sniffer-maven-plugin</artifactId>-->
-                <!--<version>1.13</version>-->
-                <!--<configuration>-->
-                    <!--<signature>-->
-                        <!--<groupId>org.codehaus.mojo.signature</groupId>-->
-                        <!--<artifactId>java15</artifactId>-->
-                        <!--<version>1.0</version>-->
-                   <!--</signature>-->
-                <!--</configuration>-->
-                <!--<executions>-->
-                    <!--<execution>-->
-                        <!--<id>check-java-compatibility</id>-->
-                        <!--<phase>process-classes</phase>-->
-                        <!--<goals>-->
-                            <!--<goal>check</goal>-->
-                        <!--</goals>-->
-                    <!--</execution>-->
-                <!--</executions>-->
+            <!--<groupId>org.codehaus.mojo</groupId>-->
+            <!--<artifactId>animal-sniffer-maven-plugin</artifactId>-->
+            <!--<version>1.13</version>-->
+            <!--<configuration>-->
+            <!--<signature>-->
+            <!--<groupId>org.codehaus.mojo.signature</groupId>-->
+            <!--<artifactId>java15</artifactId>-->
+            <!--<version>1.0</version>-->
+            <!--</signature>-->
+            <!--</configuration>-->
+            <!--<executions>-->
+            <!--<execution>-->
+            <!--<id>check-java-compatibility</id>-->
+            <!--<phase>process-classes</phase>-->
+            <!--<goals>-->
+            <!--<goal>check</goal>-->
+            <!--</goals>-->
+            <!--</execution>-->
+            <!--</executions>-->
             <!--</plugin>-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -263,12 +282,12 @@
                 </dependencies>
             </plugin>
             <!--<plugin>-->
-                <!--<groupId>org.apache.maven.plugins</groupId>-->
-                <!--<artifactId>maven-compiler-plugin</artifactId>-->
-                <!--<configuration>-->
-                    <!--<source>6</source>-->
-                    <!--<target>6</target>-->
-                <!--</configuration>-->
+            <!--<groupId>org.apache.maven.plugins</groupId>-->
+            <!--<artifactId>maven-compiler-plugin</artifactId>-->
+            <!--<configuration>-->
+            <!--<source>6</source>-->
+            <!--<target>6</target>-->
+            <!--</configuration>-->
             <!--</plugin>-->
         </plugins>
 
@@ -340,7 +359,7 @@
                 </plugin>
             </plugins>
         </pluginManagement>
-        
+
         <defaultGoal>install</defaultGoal>
     </build>
 
@@ -350,7 +369,7 @@
             <activation>
                 <property>
                     <name>release</name>
-                    <value />
+                    <value/>
                 </property>
             </activation>
             <build>
@@ -371,7 +390,7 @@
             <activation>
                 <property>
                     <name>deploy</name>
-                    <value />
+                    <value/>
                 </property>
             </activation>
             <build>
@@ -391,7 +410,7 @@
             </activation>
             <dependencies>
                 <dependency>
-                    <groupId>org.bouncycastle</groupId>
+                    <groupId>org.wso2.orbit.org.bouncycastle</groupId>
                     <artifactId>bcprov-jdk15on</artifactId>
                     <version>${bcprov.version}</version>
                     <scope>test</scope>
@@ -405,7 +424,7 @@
             </activation>
             <dependencies>
                 <dependency>
-                    <groupId>org.bouncycastle</groupId>
+                    <groupId>org.wso2.orbit.org.bouncycastle</groupId>
                     <artifactId>bcprov-jdk15on</artifactId>
                     <version>${bcprov.version}</version>
                     <scope>test</scope>
@@ -432,7 +451,7 @@
         <opensaml.version>3.3.1.wso2v1</opensaml.version>
         <saml.common.util.version>1.0.4</saml.common.util.version>
         <xml.apis.version>1.3.04</xml.apis.version>
-        <bcprov.version>1.52</bcprov.version>
+        <bcprov.version>1.52.0.wso2v1</bcprov.version>
         <commons.logging.version>1.1.1</commons.logging.version>
         <xalan.version>2.7.2</xalan.version>
         <xerces.version>2.9.1</xerces.version>
@@ -440,9 +459,15 @@
         <log4j.version>1.2.17</log4j.version>
         <slf4j.version>1.7.9</slf4j.version>
 
+        <wss4j.version.range>[${project.version}, 2.0.0)</wss4j.version.range>
+        <xmlsec.version.range>[1.5.8, 2.0.0)</xmlsec.version.range>
+        <bcprov.version.range>[1.52.0.wso2v1, 1.53.0)</bcprov.version.range>
+        <opensaml.version.range>[3.3.1, 3.4.0)</opensaml.version.range>
+        <saml.common.util.version.range>[1.0.4, 2.0.0)</saml.common.util.version.range>
+
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
-    
+
     <dependencies>
         <dependency>
             <groupId>commons-logging</groupId>
@@ -635,7 +660,7 @@
             </plugin>
         </plugins>
     </reporting>
-    
+
     <distributionManagement>
         <repository>
             <id>apache.releases.https</id>
